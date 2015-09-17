@@ -39,5 +39,5 @@ xmldb.jar: Apache style (http://xmldb.exist-db.org/page2/page2.html)
 xmlrpc-client-3.1.3.jar: The Apache Software License, Version 2.0
 xmlrpc-common-3.1.3.jar: The Apache Software License, Version 2.0
 xmlrpc-server-3.1.3.jar: The Apache Software License, Version 2.0
-DMS-1.9.jar: EUPL, Version 1.1
+DMS-1.0.jar: EUPL, Version 1.1
 
