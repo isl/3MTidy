@@ -45,7 +45,7 @@ tidy.run();
 
 ```
 
-See javadoc for more details.
+Read javadoc for more details.
 
 
 
