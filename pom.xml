@@ -9,7 +9,13 @@
 
     <name>3MTidy</name>
 
-    
+    <licenses>
+        <license>
+            <name>EUPL v.1.1</name>
+            <url>http://ec.europa.eu/idabc/eupl</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <repositories>       
         <repository>
             <id>jitpack.io</id>
@@ -17,7 +23,7 @@
         </repository>
     </repositories>
     <dependencies>
-         <dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.2</version>
