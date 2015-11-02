@@ -30,7 +30,8 @@ This file is part of the 3MTidy project.
 3MTidy is a Java API used by [3MEditor] (https://github.com/isl/3MEditor) to detect useless or duplicate files and delete them.
 
 ## Build - Run
-Folders src and lib contain all the files needed to build and create a jar file.
+This project is a Maven project, providing all the libs in pom.xml.
+Folder src contains all the files needed to build and create a jar file.
 
 ## Usage
 The 3MTidy dependecies and licenses used are described in file 3MTidy-Dependencies-LicensesUsed.txt 

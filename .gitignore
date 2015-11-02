@@ -1,14 +1,11 @@
 # Unwanted folders
-build
-dist
-nbproject
-test
+target
 
 # Unwanted files
 build.xml
-manifest.mf
+nb-configuration.xml
+nbactions.xml
 Main.java
-notes.txt
 
 # Windows image file caches
 Thumbs.db
