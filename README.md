@@ -38,7 +38,7 @@ The 3MTidy dependecies and licenses used are described in file 3MTidy-Dependenci
 
 Basic usage:
 ```java
-Tidy tidy = new Tidy("eXist xmlrpc URL", "eXist root collection", "eXist username", "eXist password", "server upload path");
+Tidy tidy = new Tidy("eXist xmlrpc URL", "eXist root collection","eXist x3ml collection", "eXist username", "eXist password", "server upload path");
 //Scans a given folder and returns first duplicate filename (if any)
 String duplicate = tidy.getDuplicate("File full path", "Folder full path");
 //Clean up useless and duplicate files
