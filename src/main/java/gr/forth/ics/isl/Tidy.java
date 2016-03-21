@@ -73,14 +73,14 @@ public class Tidy {
      * @param databasePass eXist database password as a <code>String</code>
      * @param uploadsPath Server upload path as a <code>String</code>
      */
-    public Tidy(String databaseURL, String rootCollection, String databaseUser, String databasePass, String uploadsPath) {
+    public Tidy(String databaseURL, String rootCollection, String x3mlCollection, String databaseUser, String databasePass, String uploadsPath) {
         DBURL = databaseURL;
         DBCollection = rootCollection;
         DBUsername = databaseUser;
         DBPassword = databasePass;
         serverPath = uploadsPath;
         rootCol = new DBCollection(DBURL, DBCollection, DBUsername, DBPassword);
-        x3mlCol = new DBCollection(DBURL, DBCollection + "/3M/x3ml", DBUsername, DBPassword);
+        x3mlCol = new DBCollection(DBURL, x3mlCollection, DBUsername, DBPassword);
 
     }
 
