@@ -69,6 +69,7 @@ public class Tidy {
      *
      * @param databaseURL eXist database URL as a <code>String</code>
      * @param rootCollection eXist root collection as a <code>String</code>
+     * @param x3mlCollection eXist x3ml collection as a <code>String</code>
      * @param databaseUser eXist database user as a <code>String</code>
      * @param databasePass eXist database password as a <code>String</code>
      * @param uploadsPath Server upload path as a <code>String</code>
