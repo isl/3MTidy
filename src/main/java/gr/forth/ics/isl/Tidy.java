@@ -119,16 +119,17 @@ public class Tidy {
         ArrayList<String> allFilesReferencedByMappings = getFilesUsedInMappings();
         System.out.println("Files referenced by mappings:" + allFilesReferencedByMappings.size());
 
+        ArrayList<String> schemataListFiles = getSchemasFromSchemataList();
+        System.out.println("Files in schemata_list.xml:" + schemataListFiles.size());
+
         String[] allFilesInExist = x3mlCol.listFiles();
         System.out.println("Initial number of files inside x3ml collection:" + allFilesInExist.length);
 
         for (String fileInExist : allFilesInExist) {
-            if (!(fileInExist.equals("Template.xml") || fileInExist.equals("schemata_list.xml") || fileInExist.equals("3MTemplate.xml") || fileInExist.equals("Help.xml") || fileInExist.equals("cidoc_crm_v6.0-draft-2015January.rdfs") || fileInExist.equals("cidoc_crm_v5.1-draft-2013May.rdfs")) && !allFilesReferencedByMappings.contains(fileInExist)) {
+            if (!(fileInExist.equals("schemata_list.xml") || fileInExist.equals("3MTemplate.xml") || fileInExist.equals("Help.xml")) && !allFilesReferencedByMappings.contains(fileInExist) && !schemataListFiles.contains(fileInExist)) {
                 try {
-//                    System.out.println("REMOVING:"+fileInExist);
-                    x3mlCol.removeFile(fileInExist);
+                        x3mlCol.removeFile(fileInExist);                    
                     delCounter = delCounter + 1;
-
                 } catch (DBMSException ex) {
                     ex.printStackTrace();
                 }
@@ -150,7 +151,7 @@ public class Tidy {
     public int[] deleteNotUsedFiles() {
         ArrayList<String> allFilesReferencedByMappings = getFilesUsedInMappings();
         System.out.println("Files referenced by mappings:" + allFilesReferencedByMappings.size());
-        ArrayList<String> allFilesInServer = new ArrayList<String>();
+        ArrayList<String> allFilesInServer = new ArrayList<>();
         allFilesInServer = getFilesInFolder(serverPath, allFilesInServer);
         System.out.println("Initial number of files in server:" + allFilesInServer.size());
 
@@ -178,7 +179,9 @@ public class Tidy {
         ArrayList<String> allFoldersInServer = new ArrayList<String>();
         allFoldersInServer = getFoldersInServer(serverPath, allFoldersInServer);
 //        System.out.println("Folders in server:" + allFoldersInServer);
-
+        ArrayList<String> schemataListFiles = getSchemasFromSchemataList();
+        System.out.println("Files in schemata_list.xml:" + schemataListFiles.size());
+        
         for (String folderPath : allFoldersInServer) {
             ArrayList<String> allFilesInFolder = new ArrayList<String>();
             allFilesInFolder = getFilesInFolder(folderPath, allFilesInFolder);
@@ -191,7 +194,7 @@ public class Tidy {
                 for (String fileToKeep : duplicates.keySet()) {
 //                    System.out.println("KEEPING: " + fileToKeep);
                     for (String file : duplicates.get(fileToKeep)) {
-                        if (!file.equals(fileToKeep)) {
+                        if (!(file.equals(fileToKeep)) && !schemataListFiles.contains(file)) {
 //                            System.out.println("DELETING: " + file);
 
                             updateFilenamesInAttributes(file, fileToKeep);
@@ -213,15 +216,13 @@ public class Tidy {
         }
 
         int[] deletedFiles = new int[2];
-//        deletedFiles[0] = fileNamesToDelete.size();
-//        //Then delete files from eXist that are not used.
-//
-//        deletedFiles[1] = deleteDeadFilesFromExist(fileNamesToDelete, x3mlCol);
+
         return deletedFiles;
     }
 
     /**
      * Gets first duplicate file for a given file path
+     *
      * @param filePath Filepath to check as a <code>String</code>
      * @param folderPath Folderpath to check as a <code>String</code>
      * @return Name of first duplicate file found as a <code>String</code>
@@ -243,14 +244,16 @@ public class Tidy {
 
     }
 
-    private static ArrayList<String> deleteDeadFilesFromServer(ArrayList<String> allFilesInExist, ArrayList<String> allFilesInServer) {
+    private ArrayList<String> deleteDeadFilesFromServer(ArrayList<String> allFilesInExist, ArrayList<String> allFilesInServer) {
         int delCounter = 0;
         ArrayList<String> results = new ArrayList();
-
+  ArrayList<String> schemataListFiles = getSchemasFromSchemataList();
+        System.out.println("Files in schemata_list.xml:" + schemataListFiles.size());
+        
         for (String filepath : allFilesInServer) {
             String filename = filepath.substring(filepath.lastIndexOf(System.getProperty("file.separator")) + 1);
 
-            if (!(filename.endsWith(".txt") || filename.equals("cidoc_crm_v5.1-draft-2013May.rdfs")) && !allFilesInExist.contains(filename)) {
+            if (!(filename.endsWith(".txt")) && !allFilesInExist.contains(filename) && !schemataListFiles.contains(filename)) {
                 delCounter = delCounter + 1;
                 results.add(filename);
                 //TODO add Remove code
@@ -262,22 +265,21 @@ public class Tidy {
         return results;
     }
 
-    private static int deleteDeadFilesFromExist(ArrayList<String> fileNamesToDelete, DBCollection x3mlCol) {
-        ArrayList<String> results = new ArrayList();
+    private int deleteDeadFilesFromExist(ArrayList<String> fileNamesToDelete, DBCollection x3mlCol) {
+        ArrayList<String> schemataListFiles = getSchemasFromSchemataList();
+        System.out.println("Files in schemata_list.xml:" + schemataListFiles.size());
+        
         String[] x3mlFiles = x3mlCol.listFiles();
         System.out.println("Files inside x3ml collection: " + x3mlFiles.length);
         int delCounter = 0;
         for (String x3mlFile : x3mlFiles) {
-            if (!(x3mlFile.equals("Template.xml") || x3mlFile.equals("schemata_list.xml") || x3mlFile.equals("3MTemplate.xml") || x3mlFile.equals("Help.xml")) && fileNamesToDelete.contains(x3mlFile)) {
+            if (!(x3mlFile.equals("schemata_list.xml") || x3mlFile.equals("3MTemplate.xml") || x3mlFile.equals("Help.xml")) && fileNamesToDelete.contains(x3mlFile) && !schemataListFiles.contains(x3mlFile)) {
                 delCounter = delCounter + 1;
-//                                    System.out.println("REMOVING:"+x3mlFile);
 
 //                System.out.println(x3mlFile);
                 //TODO add Remove code
                 x3mlCol.removeFile(x3mlFile);
-            } else {
-//                System.out.println("KEEPING:"+x3mlFile);
-            }
+            } 
         }
         System.out.println("Deleting " + delCounter + " files from eXist!");
         return delCounter;
@@ -286,6 +288,7 @@ public class Tidy {
 
     /**
      * Checks if a file is used in a mapping or not
+     *
      * @param filename Filename to check as a <code>String</code>
      * @return If file is used then <code>true</code>, else <code>false</code>
      */
@@ -307,6 +310,10 @@ public class Tidy {
 
     private ArrayList<String> getFilesUsedInMappings() {
         return new ArrayList(Arrays.asList(rootCol.query("distinct-values(//@xml_link|//@generator_link|//@html_link|//@rdf_link|//@schema_file)")));
+    }
+
+    private ArrayList<String> getSchemasFromSchemataList() {
+        return new ArrayList(Arrays.asList(x3mlCol.getFile("schemata_list.xml").queryString("//target_schema/@schema_file/string()")));
     }
 
     private ArrayList<String> getFilesInFolder(String path, ArrayList<String> files) {
