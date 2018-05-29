@@ -309,7 +309,7 @@ public class Tidy {
     }
 
     private ArrayList<String> getFilesUsedInMappings() {
-        return new ArrayList(Arrays.asList(rootCol.query("distinct-values(//@xml_link|//@generator_link|//@html_link|//@rdf_link|//@schema_file)")));
+        return new ArrayList(Arrays.asList(rootCol.query("distinct-values(//@thesaurus_link|//@xml_link|//@generator_link|//@html_link|//@rdf_link|//@schema_file)")));
     }
 
     private ArrayList<String> getSchemasFromSchemataList() {
